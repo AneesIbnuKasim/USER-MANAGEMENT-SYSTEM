@@ -7,10 +7,20 @@ const userRegister = async(req,res)=>{
     
     const user = new User({
     name: name,
-    password: password
+    email : email,
+    mobile: mobile,
+    password: password,
+    image: req.file? req.file.filename:null,
+    is_admin: 0
 })
- const response = await user.save()
- res.send("reg successful"+response)
+ const userData = await user.save()
+if (userData){
+    res.render("user/register",{message:"Registration has been completed successfully"})
+}
+else {
+    res.render("user/register",{message:"Registration has been failed"})
+}
+ 
     } catch (error) {
         res.send(error.message)
     }
