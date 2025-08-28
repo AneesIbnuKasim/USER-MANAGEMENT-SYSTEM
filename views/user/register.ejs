@@ -23,5 +23,14 @@
 
     <button type="submit">Register</button>
   </form>
+  <% if (typeof message !== "undefined") { %>
+    <p id="msg"><%= message %></p>
+    <script>
+      setTimeout(()=>{
+      document.getElementById('msg').style.display = "none"
+    },3000)
+    </script>
+  
+  <% } %>
 </body>
 </html>

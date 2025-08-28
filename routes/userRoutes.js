@@ -1,5 +1,5 @@
 const express = require("express")
-const {userRegister}  = require("../controller/userController.js")
+const {userRegister, verifyEmail}  = require("../controller/userController.js")
 const router = express.Router()
 const upload = require("../config/multer.js")
 
@@ -8,5 +8,6 @@ router.get('/register',(req,res)=>{
 })
 router.post('/register',upload.single('image') ,userRegister)
 
+router.get('/verify', verifyEmail)
 
 module.exports = router
