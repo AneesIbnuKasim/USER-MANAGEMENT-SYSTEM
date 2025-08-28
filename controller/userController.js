@@ -89,10 +89,38 @@ const loadHome = async(req,res)=>{
         console.log(error.message);
     }
 }
+// load forget password page
+const loadForget = async(req,res)=>{
+    try {
+        res.render('user/forget')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+//send password reset mail
+const forgetMail = async(req, res)=>{
+    try {
+        const { email } = req.body
+        const matchEmail = await User.findOne({email:email})
+        if (matchEmail) {
+            console.log('email matched');
+            
+        }
+        else {
+            res.render("user/forget", {message: "Invalid email"})
+        }
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
 module.exports = {
     userRegister,
     verifyEmail ,
     loadLogin ,
     userLogin ,
-    loadHome
+    loadHome,
+    loadForget,
+    forgetMail
 }

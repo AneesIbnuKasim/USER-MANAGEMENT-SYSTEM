@@ -1,5 +1,5 @@
 const express = require("express")
-const {userRegister, verifyEmail, loadLogin, userLogin, loadHome}  = require("../controller/userController.js")
+const {userRegister, verifyEmail, loadLogin, userLogin, loadHome, loadForget, forgetMail}  = require("../controller/userController.js")
 const router = express.Router()
 const upload = require("../config/multer.js")
 const { isLogin, isLogout } = require("../middlewares/auth.js")
@@ -19,4 +19,11 @@ router.get('/login',isLogout, loadLogin)
 router.post('/login', userLogin)
 //load home page
 router.get('/home',isLogin, loadHome)
+
+//get forget password page
+router.get('/forget',isLogout, loadForget)
+
+//post forget password details
+router.post('/forget', forgetMail)
+
 module.exports = router
