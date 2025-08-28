@@ -12,5 +12,14 @@
         <input type="email" name="email" placeholder="Enter Email">
         <button type="submit">Send Link</button>
     </form>
+    <% if (typeof message !== "undefined") { %>
+        <p id="msg"><%= message %></p>
+        <script>
+          setTimeout(()=>{
+          document.getElementById('msg').style.display = "none"
+        },3000)
+        </script>
+      
+      <% } %>
 </body>
 </html>

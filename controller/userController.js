@@ -161,6 +161,24 @@ const loadVerifyEmail = async(req, res)=>{
     }
 }
 
+//send link to verify email
+const sendVerMail = async(req, res)=>{
+    try {
+        const { email } = req.body
+    const userData = await User.findOne({email:email})
+    if(userData) {
+        sendVerifyEmail(userData.name, email, userData._id)
+        res.render('user/verifyEmail', {message: 'Verification link has been sent to your email'})
+    }
+    else {
+        res.render('user/verifyEmail', {message: 'Email is not registered'})
+    }
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
 module.exports = {
     userRegister,
     verifyEmail,
@@ -171,5 +189,6 @@ module.exports = {
     forgetPassMail,
     loadPassReset,
     resetPassword,
-    loadVerifyEmail
+    loadVerifyEmail,
+    sendVerMail
 }
