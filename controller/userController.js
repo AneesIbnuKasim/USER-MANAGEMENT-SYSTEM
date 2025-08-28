@@ -151,6 +151,16 @@ const resetPassword = async(req, res)=>{
     }
 }
 
+//load verify email page
+const loadVerifyEmail = async(req, res)=>{
+    try {
+        res.render('user/verifyEmail')
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
 module.exports = {
     userRegister,
     verifyEmail,
@@ -160,5 +170,6 @@ module.exports = {
     loadForget,
     forgetPassMail,
     loadPassReset,
-    resetPassword
+    resetPassword,
+    loadVerifyEmail
 }
