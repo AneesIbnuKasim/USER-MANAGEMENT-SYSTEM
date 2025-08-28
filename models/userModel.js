@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
   token: {
     type: String,
     default: "" // Empty unless a reset token is set
-  }
-});
+  },
+},{ timestamps: true });
 
 module.exports = mongoose.model('user',userSchema)

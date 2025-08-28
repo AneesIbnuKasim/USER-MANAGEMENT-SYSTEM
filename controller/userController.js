@@ -1,8 +1,7 @@
 const User = require("../models/userModel")
 const bcrypt = require("bcrypt")
-const sendVerifyEmail = require("../config/nodemailer")   //nodemailer setup
-const session = require("express-session")
-
+const {sendVerifyEmail, sendPassResetEmail} = require("../config/nodemailer")   //nodemailer setup
+const randomString = require("randomstring")
 
 const securePassword = async(password)=>{
     const hashedPass = await bcrypt.hash(password, 10)
@@ -98,13 +97,20 @@ const loadForget = async(req,res)=>{
     }
 }
 //send password reset mail
-const forgetMail = async(req, res)=>{
+const forgetPassMail = async(req, res)=>{
     try {
         const { email } = req.body
-        const matchEmail = await User.findOne({email:email})
-        if (matchEmail) {
-            console.log('email matched');
-            
+        const userData = await User.findOne({email:email})
+        if (userData) {
+            if (userData.is_verified === 0) {
+                res.render('user/forget',{messgae:"Please verify your Email"})
+            }
+            else {
+                const randomstring = randomString.generate()
+                await User.updateOne({email:email},{$set:{token:randomstring}})
+                sendPassResetEmail(userData.name, email, randomstring)
+                res.render('user/forget',{messgae:"Reset link has been sent to your email"})
+            }
         }
         else {
             res.render("user/forget", {message: "Invalid email"})
@@ -115,12 +121,44 @@ const forgetMail = async(req, res)=>{
     }
 }
 
+//load password reset page
+const loadPassReset = async(req, res)=>{
+    try {
+        const token = req.query.token
+        const tokenData = await User.findOne({token:token})
+        if (tokenData) {
+            res.render('user/passReset',{user_id:tokenData._id})
+        }
+        else {
+            res.render('user/404',{message:"Invalid token"})
+        }
+        
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
+// //reset password
+const resetPassword = async(req, res)=>{
+    try {
+        const { password, user_id} = req.body
+    const hashedPass = await securePassword(password)
+    const updatedUser = await User.findByIdAndUpdate({_id:user_id},{$set:{password:hashedPass},token:''})
+    res.redirect('/api/user/login')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     userRegister,
-    verifyEmail ,
-    loadLogin ,
-    userLogin ,
+    verifyEmail,
+    loadLogin,
+    userLogin,
     loadHome,
     loadForget,
-    forgetMail
+    forgetPassMail,
+    loadPassReset,
+    resetPassword
 }

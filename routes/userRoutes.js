@@ -1,5 +1,5 @@
 const express = require("express")
-const {userRegister, verifyEmail, loadLogin, userLogin, loadHome, loadForget, forgetMail}  = require("../controller/userController.js")
+const {userRegister, verifyEmail, loadLogin, userLogin, loadHome, loadForget, forgetPassMail, loadPassReset, resetPassword}  = require("../controller/userController.js")
 const router = express.Router()
 const upload = require("../config/multer.js")
 const { isLogin, isLogout } = require("../middlewares/auth.js")
@@ -24,6 +24,13 @@ router.get('/home',isLogin, loadHome)
 router.get('/forget',isLogout, loadForget)
 
 //post forget password details
-router.post('/forget', forgetMail)
+router.post('/forget', forgetPassMail)
+
+//get reset password function
+router.get('/forget-password', loadPassReset)
+
+//post new password with user_id
+router.post('/forget-password', resetPassword)
+
 
 module.exports = router
