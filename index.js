@@ -4,9 +4,20 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const port = process.env.PORT || 5000
-const user = require("./controller/userController")
 const userRoute = require("./routes/userRoutes")
+const session = require("express-session")
 
+//session middelware
+app.use(session({
+    secret: "mysecret",   // session secret key
+    resave: false,           // don't save session if unmodified
+    saveUninitialized: true, // save new sessions
+    cookie: { 
+        maxAge: 1000 * 60 * 60, // 1 hour
+        secure: false,           // true if using HTTPS
+        sameSite: 'lax'
+    }
+}));
 //use express for body parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

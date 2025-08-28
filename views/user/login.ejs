@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMS</title>
+</head>
+<body >
+    <%- include("../partials/header") %>
+    <container class="h-100 d-flex flex-column justify-content-center align-items-center ">
+        <section class="border border-dark p-5 m-5 text-center">
+            <h1 class="mb-5">Login page</h1>
+    <form action="/api/user/login" method="post">
+        <div class="d-flex flex-row gap-5">
+            <label for="email">Email</label>
+        <input type="email" placeholder="Type your Email" class="h-25" name="email"> <br><br>
+        </div>
+        <div class="d-flex flex-row gap-3">
+            <label for="password">password</label>
+        <input type="password" placeholder="Type your password" class="h-25" name="password"> <br><br>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <% if (typeof message !== "undefined") { %>
+        <p style="color: red;" id="msg"><%= message %></p>
+        <script>
+            setTimeout(()=>{
+            document.getElementById('msg').style.display = "none"
+          },1000)
+          </script>
+  <%} %>
+        </section>
+    </container>
+    
+
+  <%- include("../partials/footer") %>
+</body>
+</html>
