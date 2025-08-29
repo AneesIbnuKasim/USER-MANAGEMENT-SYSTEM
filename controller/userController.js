@@ -179,7 +179,18 @@ const sendVerMail = async(req, res)=>{
 }
 
 //logout user
-// const logoutUser 
+const logoutUser = async(req, res)=>{
+    const userId = req.query.id
+    req.session.destroy((err)=>{
+        if(err){ 
+        console.log('logout failed')
+        return
+        }
+        //clear cookie
+        res.clearCookie('connect.sid')
+        res.redirect('/api/user/login')
+    })
+}
 
 module.exports = {
     userRegister,
@@ -193,5 +204,5 @@ module.exports = {
     resetPassword,
     loadVerifyEmail,
     sendVerMail,
-    // logoutUser
+    logoutUser
 }

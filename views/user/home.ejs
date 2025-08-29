@@ -13,7 +13,7 @@
                 <tbody class="m-5">
                     <tr >
                         <td ></td>
-                        <td class="p-3"><img width="130px" src="/userImages/<%= user.image %>" alt="<%= user.image %>" /></td>
+                        <td class="p-3"><img width="150px" src="/userImages/<%= user.image %>" alt="<%= user.image %>" /></td>
                     </tr>
                         <tr >
                             <td class="p-4">name</td>
@@ -29,11 +29,11 @@
                         </tr>
                         <tr >
                             <td class="p-4">verified</td>
-                            <td><%= user.is_verified %></td>
+                            <td>true</td>
                         </tr>
-                        <tr >
-                            <td ><a href="">Edit</a></td>
-                            <td class="p-4"><a href="/api/user/logout">Logout</a></td>
+                        <tr class="fw-bold">
+                            <td class="color-light"><a href="/api/user/edit?id=<%= user._id %>" class="text-success">Edit</a></td>
+                            <td class="p-4"><a href="/api/user/logout?id=<%= user._id %>" class="text-danger ">Logout</a></td>
                         </tr>
                 </tbody>
             </table>

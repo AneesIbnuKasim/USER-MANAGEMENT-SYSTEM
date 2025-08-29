@@ -6,6 +6,7 @@ const path = require("path")
 const port = process.env.PORT || 5000
 const userRoute = require("./routes/userRoutes")
 const session = require("express-session")
+const flash = require('connect-flash')
 
 //session middelware
 app.use(session({
@@ -30,6 +31,9 @@ app.set("views",path.join(__dirname,"views"))
 
 //user base api 
 app.use('/api/user',userRoute)
+
+//connect flash for notifications
+app.use(flash())
 
 
 connectDB();

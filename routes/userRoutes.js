@@ -34,12 +34,12 @@ router.get('/forget-password',isLogout, loadPassReset)
 router.post('/forget-password', resetPassword)
 
 //load email verify page
-router.get('/verify-email', loadVerifyEmail)
+router.get('/verify-email',isLogout, loadVerifyEmail)
 
 //post email verify data
 router.post('/verify-email', sendVerMail)
 
 //Logout user 
-// router.get('/logout',isLogin,logoutUser)
+router.get('/logout',isLogin,logoutUser)
 
 module.exports = router
