@@ -6,15 +6,19 @@
     <title>UMS</title>
 </head>
 <body>
-    <h1>Reset your password</h1>
+    <%- include("../partials/header") %>
+    <div class="h-100">
+        <h1>Reset your password</h1>
     <form action="/api/user/forget" method="post">
         <label for="email">Email</label>
         <input type="email" placeholder="Enter your registered Email" name="email"> <br><br>
         <button type="submit"> Send Mail</button>
     </form>
     <% if (typeof message !== "undefined") { %>
-    <p id="msg" style="color:red"><%= message %></p>
-   <% }  %>
+        <p id="msg" style="color:red"><%= message %></p>
+       <% }  %>
+    </div>
+    <%- include("../partials/footer") %>
    <script>
     setTimeout(()=>{
     document.getElementById('msg').style.display = "none"

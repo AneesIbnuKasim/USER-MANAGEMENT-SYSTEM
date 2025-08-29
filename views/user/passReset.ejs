@@ -6,12 +6,16 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Password Reset Page</h1>
+    <%- include("../partials/header") %>
+    <div class="h-100">
+        <h1>Password Reset Page</h1>
     <form action="/api/user/forget-password" method="post">
         <label for="password">Password</label>
         <input type="hidden" name="user_id" value="<%= user_id %>" >
         <input type="password" name="password" placeholder="Enter new Password">
         <button type="submit">Reset</button>
     </form>
+    </div>
+    <%- include("../partials/footer") %>
 </body>
 </html>
