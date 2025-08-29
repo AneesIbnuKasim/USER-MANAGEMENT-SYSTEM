@@ -61,10 +61,7 @@ const userLogin = async(req,res)=>{
                 res.render('user/login', {message:"Please verify your email"})
             }
             else {
-                req.session.user_id = userInfo._id
-
-                console.log('session',req.session);
-                
+                req.session.user_id = userInfo._id    
                 res.redirect('/api/user/home')
             }
         }
@@ -83,7 +80,9 @@ const userLogin = async(req,res)=>{
 // load home page
 const loadHome = async(req,res)=>{
     try {
-        res.render('user/home')
+        const id = req.session.user_id
+        const userData = await User.findOne({_id:id})
+        res.render('user/home',{user:userData})
     } catch (error) {
         console.log(error.message);
     }
@@ -179,6 +178,9 @@ const sendVerMail = async(req, res)=>{
     }
 }
 
+//logout user
+// const logoutUser 
+
 module.exports = {
     userRegister,
     verifyEmail,
@@ -190,5 +192,6 @@ module.exports = {
     loadPassReset,
     resetPassword,
     loadVerifyEmail,
-    sendVerMail
+    sendVerMail,
+    // logoutUser
 }

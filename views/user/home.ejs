@@ -6,6 +6,40 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Home page</h1>
+    <%- include("../partials/header") %>
+    <container>
+        <section class="d-flex justify-content-center mt-5 text-center">
+            <table class="bg-info w-50 border border-4 ">
+                <tbody class="m-5">
+                    <tr >
+                        <td ></td>
+                        <td class="p-3"><img width="130px" src="/userImages/<%= user.image %>" alt="<%= user.image %>" /></td>
+                    </tr>
+                        <tr >
+                            <td class="p-4">name</td>
+                            <td><%= user.name %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">email</td>
+                            <td><%= user.email %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">mobile</td>
+                            <td><%= user.mobile %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">verified</td>
+                            <td><%= user.is_verified %></td>
+                        </tr>
+                        <tr >
+                            <td ><a href="">Edit</a></td>
+                            <td class="p-4"><a href="/api/user/logout">Logout</a></td>
+                        </tr>
+                </tbody>
+            </table>
+        </section>
+    </container>
+
+    <%- include("../partials/footer") %>
 </body>
 </html>

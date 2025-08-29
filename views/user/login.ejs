@@ -19,9 +19,9 @@
             <label for="password">password</label>
         <input type="password" placeholder="Type your password" class="h-25" name="password"> <br><br>
         </div>
-        <button type="submit">Login</button>
+        <button class="mb-3" type="submit">Login</button>
     </form>
-    <a href="/api/user/forget">Forget password?</a> 
+    <a href="/api/user/forget">Forget password?</a> <br>
     <a href="/api/user/Verify-email">Verify Email?</a>
     <% if (typeof message !== "undefined") { %>
         <p style="color: red;" id="msg"><%= message %></p>
