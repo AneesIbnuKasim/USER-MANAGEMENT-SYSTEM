@@ -2,6 +2,7 @@ const User = require("../models/userModel")
 const bcrypt = require("bcrypt")
 const {sendVerifyEmail, sendPassResetEmail} = require("../config/nodemailer")   //nodemailer setup
 const randomString = require("randomstring")
+const { render } = require("ejs")
 
 const securePassword = async(password)=>{
     const hashedPass = await bcrypt.hash(password, 10)
@@ -180,16 +181,48 @@ const sendVerMail = async(req, res)=>{
 
 //logout user
 const logoutUser = async(req, res)=>{
-    const userId = req.query.id
-    req.session.destroy((err)=>{
-        if(err){ 
-        console.log('logout failed')
-        return
+    try {
+        req.session.destroy((err)=>{
+            if(err){ 
+            console.log('logout failed')
+            return
+            }
+            //clear cookie
+            res.clearCookie('connect.sid')
+            res.redirect('/api/user/login')
+        })
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+const editLoad = async(req, res)=>{
+    try {
+        const id = req.query.id
+        const userData = await User.findOne({_id:id})
+        res.render('user/edit',{user:userData})   
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+//edit user
+const editUser = async(req, res)=>{
+    try {
+        if (req.file) {
+            const { userId, name, email, mobile } = req.body
+            const image = req.file.filename
+            console.log('body file',req.body);
+            const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{name:name,email:email,mobile:mobile,image:image}})
+        }   
+        else {
+            const { userId, name, email, mobile} = req.body
+            const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{name:name,email:email,mobile:mobile}})
         }
-        //clear cookie
-        res.clearCookie('connect.sid')
-        res.redirect('/api/user/login')
-    })
+        res.redirect('/api/user/home')
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 module.exports = {
@@ -204,5 +237,7 @@ module.exports = {
     resetPassword,
     loadVerifyEmail,
     sendVerMail,
-    logoutUser
+    logoutUser,
+    editLoad,
+    editUser
 }

@@ -7,7 +7,35 @@
 </head>
 <body>
     <%- include("../partials/header") %>
-    
+    <section class="d-flex justify-content-center mt-5 text-center">
+        <table class="bg-info w-50 border border-4 ">
+            <form action="/api/user/edit" method="post" enctype="multipart/form-data">
+                <tbody class="m-5">
+                    <tr >
+                        <td class="p-4" ><img width="150px" src="/userImages/<%= user.image %>" alt="<%= user.image %>"/>
+                        <input type="hidden" name="userId" value="<%=user._id%>"></td>
+                        <td class="ps-5"><input class="ms-5 ps-5" type="file" name="image"></td>
+                    </tr>
+                        <tr >
+                            <td class="p-4">name</td>
+                            <td><input class="text-center " type="text" name="name" value="<%= user.name %>" required></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">email</td>
+                            <td><input class="text-center " type="email" name="email" value="<%= user.email %>" required/></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">mobile</td>
+                            <td><input class="text-center" type="number" name="mobile" value="<%= user.mobile %>" required></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><button class="btn btn-success m-3" type="submit">Submit</button></td>
+                        </tr>
+                </tbody>
+            </form>
+        </table>
+    </section>
     <%- include("../partials/footer") %>
 </body>
 </html>
