@@ -5,6 +5,7 @@ const app = express()
 const path = require("path")
 const port = process.env.PORT || 5000
 const userRoute = require("./routes/userRoutes")
+const adminRoute = require("./routes/adminRoutes")
 const session = require("express-session")
 const flash = require('connect-flash')
 
@@ -31,6 +32,8 @@ app.set("views",path.join(__dirname,"views"))
 
 //user base api 
 app.use('/api/user',userRoute)
+//admin route 
+app.use('/api/admin',adminRoute)
 
 //connect flash for notifications
 app.use(flash())

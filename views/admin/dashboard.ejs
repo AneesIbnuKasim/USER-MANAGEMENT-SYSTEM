@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("../partials/header") %>
+    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+       <div class="w-25 border border-3 p-5 rounded-4 bg-info">
+         <h1>Dashboard</h1>
+       </div>
+        <% if (typeof message !== "undefined") { %>
+        <p style="color: red;" id="msg"><%= message %></p>
+        <script>
+            setTimeout(()=>{
+            document.getElementById('msg').style.display = "none"
+          },1000)
+          </script>
+  <%} %>
+    </div>
+    <%- include("../partials/footer") %>
+</body>
+</html>

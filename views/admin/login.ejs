@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("../partials/header") %>
+    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+       <div class="w-25 border border-3 p-5 rounded-4 bg-info">
+         <form class="d-flex flex-column  " action="" method="post">
+            <label for="email">Email</label>
+            <input class="mb-4" type="email" placeholder="email" name="email">
+            <label for="password">password</label>
+            <input class="mb-4" type="password" placeholder="password" name="password">
+            <button class="btn btn-primary btn-md w-25 mx-auto">LogIn</button>
+        </form>
+       </div>
+        <% if (typeof message !== "undefined") { %>
+        <p style="color: red;" id="msg"><%= message %></p>
+        <script>
+            setTimeout(()=>{
+            document.getElementById('msg').style.display = "none"
+          },1000)
+          </script>
+  <%} %>
+    </div>
+    <%- include("../partials/footer") %>
+</body>
+</html>
