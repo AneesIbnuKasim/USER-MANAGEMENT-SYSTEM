@@ -19,6 +19,7 @@ const adminLogin = async(req, res)=>{
         if(adminData && adminData.is_admin===1) {
             const passMatch = await bcrypt.compare(password, adminData.password)
             if (passMatch) {
+                req.session.adminId = adminData._id
                 res.redirect('/api/admin/dashboard')
             }
             else {
