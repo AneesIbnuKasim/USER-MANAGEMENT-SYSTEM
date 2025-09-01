@@ -10,7 +10,7 @@ router.get('/login',isLogout,loadLogin)
 router.post('/login',adminLogin)
 
 //route to load dashboard
-router.get('/dashboard',isLogin, loadDashboard)
+router.get('/home',isLogin, loadDashboard)
 
 //route to load dashboard
 router.get('/logout',isLogin, logoutAdmin)

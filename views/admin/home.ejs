@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("../partials/header") %>
+    <container>
+        <section class="d-flex justify-content-center mt-5 text-center">
+            <table class="bg-info w-50 border border-4 ">
+                <tbody class="m-5">
+                    <tr >
+                        <td ></td>
+                        <td class="p-3"><img width="150px" src="/userImages/<%= user.image %>" alt="<%= user.image %>" /></td>
+                    </tr>
+                        <tr >
+                            <td class="p-4">name</td>
+                            <td><%= user.name %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">email</td>
+                            <td><%= user.email %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">mobile</td>
+                            <td><%= user.mobile %></td>
+                        </tr>
+                        <tr >
+                            <td class="p-4">verified</td>
+                            <td>true</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td class="color-light"><a href="/api/user/edit?id=<%= user._id %>" class="text-success">Edit</a></td>
+                            <td class="p-4"><a href="/api/admin/logout" class="text-danger ">Logout</a></td>
+                        </tr>
+                </tbody>
+            </table>
+        </section>
+    </container>
+
+    <%- include("../partials/footer") %>
+</body>
+</html>

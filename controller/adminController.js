@@ -23,7 +23,7 @@ const adminLogin = async(req, res)=>{
             const passMatch = await bcrypt.compare(password, adminData.password)
             if (passMatch) {
                 req.session.adminId = adminData._id
-                res.redirect('/api/admin/dashboard')
+                res.redirect('/api/admin/home')
             }
             else {
                 res.render('admin/login',{message:'Invalid email or password'})
@@ -40,7 +40,11 @@ const adminLogin = async(req, res)=>{
 //load dashboard page
 const loadDashboard = async(req, res)=>{
     try {
-        res.render('admin/dashboard')
+        const id = req.session.adminId
+        const adminData = await User.findOne({_id:id})
+        console.log('adm',adminData);
+        
+        res.render('admin/home',{user:adminData})
     } catch (error) {
         console.log(error.message);
     }
@@ -108,7 +112,6 @@ const loadPassReset = async(req, res)=>{
 const resetPassword = async(req, res)=>{
     try {
         const { password, admin_id} = req.body
-        console.log('ad',admin_id);
         
     const hashedPass = await securePassword(password)
     const updatedUser = await User.findByIdAndUpdate({_id:admin_id},{$set:{password:hashedPass},token:''})
