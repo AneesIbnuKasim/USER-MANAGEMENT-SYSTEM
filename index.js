@@ -40,8 +40,7 @@ app.use(flash())
 
 //pass session data to all ejs pages using middleware
 app.use((req, res, next)=>{
-    req.locals.adminId = req.session.userId
-    console.log('session admin',req.locals.adminId);
+    res.locals.adminId = req.session.userId
     next()
 })
 

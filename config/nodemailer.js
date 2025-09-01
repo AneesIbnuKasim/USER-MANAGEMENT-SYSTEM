@@ -24,14 +24,14 @@ const sendVerifyEmail = async(name, email, userId)=>{
         else console.log("Email has been sent",info.response)
       });
 }
-const sendPassResetEmail = async(name, email, token)=>{
+const sendPassResetEmail = async(name, email, token, role)=>{
       const mailOptions =
         {
             from: '"reply@UMS" <webhostinganees@gmail.com>',
             to: email,
             subject: "Password Reset",
             text: "Hello world?",
-            html: `<b>hello ${name}! please click on the link to reset <a href=http://localhost:3000/api/user/forget-password?token=${token}>password</a></b>`,
+            html: `<b>hello ${name}! please click on the link to reset <a href=http://localhost:3000/api/${role}/forget-password?token=${token}>password</a></b>`,
           }
       await transporter.sendMail(mailOptions, function(error, info){
         if (error) console.log(error)

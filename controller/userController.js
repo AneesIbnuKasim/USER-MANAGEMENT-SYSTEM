@@ -103,13 +103,13 @@ const forgetPassMail = async(req, res)=>{
         const userData = await User.findOne({email:email})
         if (userData) {
             if (userData.is_verified === 0) {
-                res.render('user/forget',{messgae:"Please verify your Email"})
+                res.render('user/forget',{message:"Please verify your Email"})
             }
             else {
                 const randomstring = randomString.generate()
                 await User.updateOne({email:email},{$set:{token:randomstring}})
-                sendPassResetEmail(userData.name, email, randomstring)
-                res.render('user/forget',{messgae:"Reset link has been sent to your email"})
+                sendPassResetEmail(userData.name, email, randomstring, 'user')
+                res.render('user/forget',{message:"Reset link has been sent to your email"})
             }
         }
         else {
@@ -239,5 +239,6 @@ module.exports = {
     sendVerMail,
     logoutUser,
     editLoad,
-    editUser
+    editUser,
+    securePassword
 }
