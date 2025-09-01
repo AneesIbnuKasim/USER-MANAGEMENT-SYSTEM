@@ -126,6 +126,17 @@ const resetPassword = async(req, res)=>{
     }
 }
 
+//load dashboard page
+const loadDashboard = async(req, res)=>{
+    try {
+        const userData = await User.find({is_admin:0})
+        res.render("admin/dashboard",{users:userData})
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
 module.exports = {
     loadLogin,
     adminLogin,
@@ -134,5 +145,6 @@ module.exports = {
     loadForget,
     resetPassLink,
     loadPassReset,
-    resetPassword
+    resetPassword,
+    loadDashboard
 }

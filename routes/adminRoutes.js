@@ -27,4 +27,7 @@ router.get('/forget-password',loadPassReset)
 //reset/update with new password
 router.post('/forget-password',resetPassword)
 
+//load dashboard page
+router.get('/dashboard',loadDashboard)
+
 module.exports = router

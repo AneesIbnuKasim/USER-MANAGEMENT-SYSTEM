@@ -8,9 +8,41 @@
 <body>
     <%- include("../partials/header") %>
     <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-       <div class="w-25 border border-3 p-5 rounded-4 bg-info">
-         <h1>Dashboard</h1>
-         <a class="btn btn-primary btn-md text-light text-decoration-none" href="/api/admin/logout">Logout</a>
+       <div class="w-75 border border-3 p-5 rounded-4 bg-info">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>email</th>
+              <th>mobile</th>
+              <th>photo</th>
+              <th>Verified</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user=>{ %>
+              <tr>
+                <td><%= user._id %></td>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.mobile %></td>
+                <td><img src="/userImages/<%=user.image %>" class="w-50" alt="img"></td>
+                <td><% if(user.is_verified===0){ %>
+                  <p>false</p>
+                <% } 
+                else { %>
+                  <p>true</p>
+                <% } %></td>
+                <td><a href="/api/admin/edit?id=<%=user._id%>">Edit</a></td>
+                <td><a href="/api/admin/delete?id=<%=user._id%>">Delete</a></td>
+              </tr>
+            <% }) %>
+            
+          </tbody>
+
+        </table>
        </div>
         <% if (typeof message !== "undefined") { %>
         <p style="color: red;" id="msg"><%= message %></p>
