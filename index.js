@@ -38,6 +38,12 @@ app.use('/api/admin',adminRoute)
 //connect flash for notifications
 app.use(flash())
 
+//pass session data to all ejs pages using middleware
+app.use((req, res, next)=>{
+    req.locals.adminId = req.session.userId
+    console.log('session admin',req.locals.adminId);
+    next()
+})
 
 connectDB();
 app.listen(port,()=>{

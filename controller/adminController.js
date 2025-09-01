@@ -43,8 +43,20 @@ const loadDashboard = async(req, res)=>{
     }
 }
 
+//logout admin
+const logoutAdmin = async(req, res)=>{
+    try {
+        req.session.destroy()
+        res.redirect('/api/admin/login')
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
 module.exports = {
     loadLogin,
     adminLogin,
-    loadDashboard
+    loadDashboard,
+    logoutAdmin
 }
