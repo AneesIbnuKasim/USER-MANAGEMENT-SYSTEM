@@ -38,12 +38,10 @@ const adminLogin = async(req, res)=>{
 }
 
 //load dashboard page
-const loadDashboard = async(req, res)=>{
+const loadHome = async(req, res)=>{
     try {
         const id = req.session.adminId
         const adminData = await User.findOne({_id:id})
-        console.log('adm',adminData);
-        
         res.render('admin/home',{user:adminData})
     } catch (error) {
         console.log(error.message);
@@ -53,8 +51,15 @@ const loadDashboard = async(req, res)=>{
 //logout admin
 const logoutAdmin = async(req, res)=>{
     try {
-        req.session.destroy()
-        res.redirect('/api/admin/login')
+        req.session.destroy((err)=>{
+            if(err) {
+                console.log(err);
+                return res.render('admin/home')
+            }
+            res.clearCookie("connect.sid",{path:'/'})
+            res.redirect('/api/admin/login')
+        })
+        
     } catch (error) {
         console.log(error.message);
     }
@@ -124,7 +129,7 @@ const resetPassword = async(req, res)=>{
 module.exports = {
     loadLogin,
     adminLogin,
-    loadDashboard,
+    loadHome,
     logoutAdmin,
     loadForget,
     resetPassLink,

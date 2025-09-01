@@ -13,11 +13,12 @@ const flash = require('connect-flash')
 app.use(session({
     secret: "mysecret",   // session secret key
     resave: false,           // don't save session if unmodified
-    saveUninitialized: true, // save new sessions
+    saveUninitialized: false, // save new sessions
     cookie: { 
         maxAge: 1000 * 60 * 60, // 1 hour
         secure: false,           // true if using HTTPS
-        sameSite: 'lax'
+        sameSite: 'lax',
+        path: '/'
     }
 }));
 //use express for body parsing
@@ -30,6 +31,13 @@ app.use(express.static(path.join(__dirname,"public")))
 app.set("view engine", "ejs")
 app.set("views",path.join(__dirname,"views"))
 
+//pass session data to all ejs pages using middleware
+app.use((req, res, next)=>{
+    res.locals.adminId = req.session.adminId
+    res.locals.isAuthenticated = req.session.adminId ? true : false
+    next()
+})
+
 //user base api 
 app.use('/api/user',userRoute)
 //admin route 
@@ -37,12 +45,6 @@ app.use('/api/admin',adminRoute)
 
 //connect flash for notifications
 app.use(flash())
-
-//pass session data to all ejs pages using middleware
-app.use((req, res, next)=>{
-    res.locals.adminId = req.session.userId
-    next()
-})
 
 connectDB();
 app.listen(port,()=>{
