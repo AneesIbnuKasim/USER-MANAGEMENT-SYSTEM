@@ -137,6 +137,23 @@ const loadDashboard = async(req, res)=>{
     }
 }
 
+//load edit user page
+const loadEdit = async(req, res)=>{
+    try {
+        const id = req.query.id
+        console.log(id);
+        const userData = await User.findOne({_id:id})
+        res.render('admin/edit',{user:userData})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+//post edit user data
+const editUser = async(req, res)=>{
+    
+}
+
 module.exports = {
     loadLogin,
     adminLogin,
@@ -146,5 +163,7 @@ module.exports = {
     resetPassLink,
     loadPassReset,
     resetPassword,
-    loadDashboard
+    loadDashboard,
+    loadEdit,
+    editUser
 }

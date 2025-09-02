@@ -1,5 +1,5 @@
 const express = require('express')
-const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome } = require('../controller/adminController')
+const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome, editUser, loadEdit } = require('../controller/adminController')
 const { isLogout, isLogin } = require('../middlewares/adminAuth')
 const router = express.Router()
 
@@ -28,6 +28,12 @@ router.get('/forget-password',loadPassReset)
 router.post('/forget-password',resetPassword)
 
 //load dashboard page
-router.get('/dashboard',loadDashboard)
+router.get('/dashboard',isLogin, loadDashboard)
+
+//load edit user page for admin
+router.get('/edit',isLogin, loadEdit)
+
+//update user
+router.post('/edit',isLogin, editUser)
 
 module.exports = router
