@@ -209,14 +209,12 @@ const editLoad = async(req, res)=>{
 //edit user
 const editUser = async(req, res)=>{
     try {
+        const { userId, name, email, mobile } = req.body
         if (req.file) {
-            const { userId, name, email, mobile } = req.body
             const image = req.file.filename
-            console.log('body file',req.body);
             const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{name:name,email:email,mobile:mobile,image:image}})
         }   
         else {
-            const { userId, name, email, mobile} = req.body
             const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{name:name,email:email,mobile:mobile}})
         }
         res.redirect('/api/user/home')

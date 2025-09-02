@@ -1,6 +1,7 @@
 const express = require('express')
-const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome, editUser, loadEdit } = require('../controller/adminController')
+const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome, editUser, loadEdit, deleteUser } = require('../controller/adminController')
 const { isLogout, isLogin } = require('../middlewares/adminAuth')
+const upload = require("../config/multer.js")
 const router = express.Router()
 
 //load admin login page
@@ -34,6 +35,9 @@ router.get('/dashboard',isLogin, loadDashboard)
 router.get('/edit',isLogin, loadEdit)
 
 //update user
-router.post('/edit',isLogin, editUser)
+router.post('/edit',upload.single('image'),isLogin, editUser)
+
+//delete selected user
+router.get('/delete', isLogin, deleteUser)
 
 module.exports = router

@@ -151,7 +151,38 @@ const loadEdit = async(req, res)=>{
 
 //post edit user data
 const editUser = async(req, res)=>{
-    
+   try {
+    const adminId = req.session.adminId
+    const userId = req.query._id
+    const { name, email, mobile } = req.body
+    const admin = await User.findOne({_id:adminId})
+    if(admin.is_admin) {
+        if(req.file) {
+            const image = req.file.filename
+            const updatedUser = await User.findOneAndUpdate({id:userId},{$set:{name:name, email:email, mobile:mobile, image:image}})
+        }
+        else {
+            const updatedUser = await User.findOneAndUpdate({id:userId},{$set:{name:name, email:email, mobile:mobile}})
+        }
+        res.redirect('/api/admin/dashboard')
+    }
+    else {
+        res.redirect('api/admin/login')
+    }
+   } catch (error) {
+    console.log(error.message);
+   }
+}
+
+//delete selected user
+const deleteUser = async(req, res)=>{
+   try {
+    const userId = req.query.id
+    const user = await User.findByIdAndDelete({_id:userId})
+    res.redirect('/api/admin/dashboard')
+   } catch (error) {
+    console.log(error.message);
+   }
 }
 
 module.exports = {
@@ -165,5 +196,6 @@ module.exports = {
     resetPassword,
     loadDashboard,
     loadEdit,
-    editUser
+    editUser,
+    deleteUser
 }

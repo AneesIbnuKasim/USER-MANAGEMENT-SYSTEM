@@ -13,7 +13,6 @@
                 <tbody class="m-5">
                     <tr >
                         <td class="p-4" ><img width="150px" src="/userImages/<%= user.image %>" alt="<%= user.image %>"/>
-                        <input type="hidden" name="userId" value="<%=user._id%>"></td>
                         <td class="ps-5"><input class="ms-5 ps-5" type="file" name="image"></td>
                     </tr>
                         <tr >
@@ -35,6 +34,10 @@
                 </tbody>
             </form>
         </table>
+        <% if(typeof message !== "undefined") { %>
+            <p><%= message %></p>
+       <% }%>
+
     </section>
     <%- include("../partials/footer") %>
 </body>
