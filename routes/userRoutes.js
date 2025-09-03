@@ -19,7 +19,7 @@ router.get('/login',isLogout, loadLogin)
 router.post('/login', userLogin)
 
 //load home page
-router.get('/home',isLogin, loadHome)
+router.get('/home', isLogin, loadHome)
 
 //get forget password page
 router.get('/forget',isLogout, loadForget)

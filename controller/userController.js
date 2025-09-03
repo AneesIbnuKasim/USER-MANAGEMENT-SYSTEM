@@ -2,7 +2,6 @@ const User = require("../models/userModel")
 const bcrypt = require("bcrypt")
 const {sendVerifyEmail, sendPassResetEmail} = require("../config/nodemailer")   //nodemailer setup
 const randomString = require("randomstring")
-const { render } = require("ejs")
 
 const securePassword = async(password)=>{
     const hashedPass = await bcrypt.hash(password, 10)
@@ -72,7 +71,7 @@ const userLogin = async(req,res)=>{
                 res.render('user/login', {message:"Please verify your email"})
             }
             else {
-                req.session.user_id = userInfo._id    
+                req.session.userId = userInfo._id    
                 res.redirect('/api/user/home')
             }
         }
@@ -91,7 +90,7 @@ const userLogin = async(req,res)=>{
 // load home page
 const loadHome = async(req,res)=>{
     try {
-        const id = req.session.user_id
+        const id = req.session.userId
         const userData = await User.findOne({_id:id})
         res.render('user/home',{user:userData})
     } catch (error) {

@@ -29,6 +29,7 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//set static path folder
 app.use(express.static(path.join(__dirname,"public")))
 
 //set view engine
@@ -38,7 +39,9 @@ app.set("views",path.join(__dirname,"views"))
 //pass session data to all ejs pages using middleware
 app.use((req, res, next)=>{
     res.locals.adminId = req.session.adminId
-    res.locals.isAuthenticated = req.session.adminId ? true : false
+    res.locals.isAdminAuthenticated = req.session.adminId ? true : false
+    res.locals.userId = req.session.userId
+    res.locals.isUserAuthenticated = req.session.userId ? true : false
     next()
 })
 
@@ -50,7 +53,10 @@ app.use('/api/admin',adminRoute)
 //connect flash for notifications
 app.use(flash())
 
+//db connect
 connectDB();
+
+//listen to server
 app.listen(port,()=>{
     console.log(`server running at ${port}`);  //server creation
 })

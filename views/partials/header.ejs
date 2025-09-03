@@ -20,7 +20,7 @@
   }
   </style>
 <% 
-if( isAuthenticated ) { %>
+if( isAdminAuthenticated ) { %>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid ">
       <a class="navbar-brand" href="/api/admin/home">Admin Dashboard</a>
@@ -46,6 +46,23 @@ if( isAuthenticated ) { %>
     </div>
   </nav>
 <% }
+else if( isUserAuthenticated ) { %>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">User Panel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mx-4 mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/user/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<% }
 else { %>
 
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -57,7 +74,8 @@ else { %>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mx-4 mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/api/admin/login">Login</a>
+              <li><a class="dropdown-item " href="/api/user/login">User Login</a></li>
+              <li class="mx-3"><a class="dropdown-item" href="/api/admin/login">Admin Login</a></li>
           </li>
         </ul>
       </div>
@@ -66,3 +84,12 @@ else { %>
 
 <% }
 %>
+
+<script>
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      // if page comes from back/forward cache
+      window.location.reload();
+    }
+  });
+</script>
