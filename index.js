@@ -7,7 +7,11 @@ const port = process.env.PORT || 5000
 const userRoute = require("./routes/userRoutes")
 const adminRoute = require("./routes/adminRoutes")
 const session = require("express-session")
+const nocache = require("nocache")
 const flash = require('connect-flash')
+
+//nocache middleware to prevent browser to save protected page caches
+app.use(nocache());
 
 //session middelware
 app.use(session({
