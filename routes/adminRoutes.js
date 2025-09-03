@@ -1,5 +1,5 @@
 const express = require('express')
-const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome, editUser, loadEdit, deleteUser, loadNewuser, createNewuser } = require('../controller/adminController')
+const { loadLogin, adminLogin, loadDashboard, logoutAdmin, loadForget, resetPassLink, loadPassReset, resetPassword, loadHome, editUser, loadEdit, deleteUser, loadNewuser, createNewuser, searchUser } = require('../controller/adminController')
 const { isLogout, isLogin } = require('../middlewares/adminAuth')
 const upload = require("../config/multer.js")
 const router = express.Router()
@@ -45,5 +45,8 @@ router.get('/newuser', isLogin, loadNewuser)
 
 //create new user and add to mongodb
 router.post('/newuser', isLogin, upload.single('image'), createNewuser)
+
+//search users
+router.get('/search', isLogin, searchUser)
 
 module.exports = router

@@ -241,6 +241,21 @@ const createNewuser = async(req, res)=>{
     }
 }
 
+//search user from dashboard
+const searchUser = async(req, res)=>{
+    try {
+        const search = req.query.search
+        let query = {}
+        if (search) {
+            query = {$or:[{name:{$regex:search,$options:"i"}},{email:{$regex:search,$options:'i'}}],is_admin:0}
+        }
+        const users = await User.find(query)
+        res.render("admin/dashboard", {users})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     loadLogin,
     adminLogin,
@@ -255,5 +270,6 @@ module.exports = {
     editUser,
     deleteUser,
     loadNewuser,
-    createNewuser
+    createNewuser,
+    searchUser
 }
