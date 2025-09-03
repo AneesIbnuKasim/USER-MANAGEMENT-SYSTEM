@@ -147,7 +147,6 @@ const loadDashboard = async(req, res)=>{
 const loadEdit = async(req, res)=>{
     try {
         const id = req.query.id
-        console.log(id);
         const userData = await User.findOne({_id:id})
         res.render('admin/edit',{user:userData})
     } catch (error) {
