@@ -15,7 +15,7 @@ app.use(nocache());
 
 //session middelware
 app.use(session({
-    secret: "mysecret",   // session secret key
+    secret: process.env.SESSION_SECRET,   // session secret key
     resave: false,           // don't save session if unmodified
     saveUninitialized: false, // save new sessions
     cookie: { 

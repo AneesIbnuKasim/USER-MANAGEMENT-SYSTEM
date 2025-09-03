@@ -1,3 +1,4 @@
+require('dotenv').config()
 const nodemailer = require("nodemailer")
 
 const transporter = nodemailer.createTransport({
@@ -5,8 +6,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: "apikey",
-    pass: "PLACEHOLDER"
+    user: process.env.SENDGRID_API,
+    pass: process.env.SENDGRID_PASS
   },
 })
 // send email for verification
