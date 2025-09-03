@@ -10,7 +10,8 @@
     <div class="h-100 d-flex flex-column justify-content-center align-items-center">
        <div class="w-75 border border-3 p-5 rounded-4 bg-info">
         <table class="table">
-          <thead>
+          <% if(users.length > 0) { %>
+            <thead>
             <tr>
               <th>Id</th>
               <th>Name</th>
@@ -41,7 +42,12 @@
             <% }) %>
             
           </tbody>
-
+         <% } 
+          else { %>
+            <tr>
+              <td colspan="5"><p>No user found</p></td>
+            </tr>
+        <%  } %>
         </table>
        </div>
         <% if (typeof message !== "undefined") { %>

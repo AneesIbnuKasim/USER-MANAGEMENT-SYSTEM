@@ -25,7 +25,17 @@ const userRegister = async(req,res)=>{
 })
  const userData = await user.save()
 if (userData){
-    sendVerifyEmail(name, email, userData._id)
+    //set mail options
+     const mailOptions =
+        {
+            from: '"Anees" <webhostinganees@gmail.com>',
+            to: email,
+            subject: "Email verification",
+            text: "Hello world?", // plain‑text body
+            html: `<b>hello ${userData.name}! please click on the link to verify <a href=http://localhost:3000/api/user/verify?id=${userData._id}>Verify Email</a></b>`, // HTML body
+          }
+
+    sendVerifyEmail(mailOptions)
     res.render("user/register",{message:"Registration has been completed successfully, please verify the mail"})
 }
 else {
@@ -108,7 +118,18 @@ const forgetPassMail = async(req, res)=>{
             else {
                 const randomstring = randomString.generate()
                 await User.updateOne({email:email},{$set:{token:randomstring}})
-                sendPassResetEmail(userData.name, email, randomstring, 'user')
+
+                //set mail options
+                 const mailOptions =
+        {
+            from: '"Anees" <webhostinganees@gmail.com>',
+            to: email,
+            subject: "Email verification",
+            text: "Hello world?", // plain‑text body
+            html: `<b>hello ${userData.name}! please click on the link to verify <a href=http://localhost:3000/api/user/verify?id=${userData._id}>Verify Email</a></b>`, // HTML body
+          }
+
+                sendVerifyEmail(mailOptions)
                 res.render('user/forget',{message:"Reset link has been sent to your email"})
             }
         }

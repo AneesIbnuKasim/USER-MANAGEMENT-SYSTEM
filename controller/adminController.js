@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const randomstring = require('randomstring')
-const {sendPassResetEmail} = require('../config/nodemailer')
+const {sendPassResetEmail, sendVerifyEmail} = require('../config/nodemailer')
 const { securePassword } = require('../controller/userController')
 
 //load admin login page
@@ -59,7 +59,6 @@ const logoutAdmin = async(req, res)=>{
             res.clearCookie("connect.sid",{path:'/'})
             res.redirect('/api/admin/login')
         })
-        
     } catch (error) {
         console.log(error.message);
     }
@@ -78,12 +77,22 @@ const  loadForget = async(req, res)=>{
 const resetPassLink = async(req, res)=>{
     try {
     const { email } = req.body
-    const randomString = await randomstring.generate()
+    const token = await randomstring.generate()
     const adminData = await User.findOne({email:email})
     
     if(adminData && adminData.is_admin===1) {
-        await User.findOneAndUpdate({email:email},{$set:{token:randomString}})
-        sendPassResetEmail(adminData.name, adminData.email,randomString ,'admin')
+        await User.findOneAndUpdate({email:email},{$set:{token:token}})
+        //set mail option
+        const mailOptions =
+        {
+            from: '"reply@UMS" <webhostinganees@gmail.com>',
+            to: email,
+            subject: "Password Reset",
+            text: "Hello world?",
+            html: `<b>hello ${adminData.name}! please click on the link to reset <a href=http://localhost:3000/api/admin/forget-password?token=${token}>password</a></b>`,
+          }
+
+        sendVerifyEmail(mailOptions)
         res.render('admin/forget',{message:"email sent successfully"})
     }
     else {
@@ -106,10 +115,8 @@ const loadPassReset = async(req, res)=>{
         else {
             res.render('admin/404',{message:"Invalid token"})
         }
-        
     } catch (error) {
         console.log(error.message);
-        
     }
 }
 
@@ -133,7 +140,6 @@ const loadDashboard = async(req, res)=>{
         res.render("admin/dashboard",{users:userData})
     } catch (error) {
         console.log(error.message);
-        
     }
 }
 
@@ -185,6 +191,56 @@ const deleteUser = async(req, res)=>{
    }
 }
 
+//load new user creation page for admin
+const loadNewuser = async(req, res)=>{
+    try {
+        res.render('admin/newUser')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+//create/register new user and sent login details
+const createNewuser = async(req, res)=>{
+    try {
+        const { name, email, mobile } = req.body
+        const password = randomstring.generate(8)
+        const hashedPass = await securePassword(password)
+        const emailMatch = await User.findOne({email:email})
+        if(emailMatch) {
+            return res.render('admin/newuser',{message:'Email already exist'})
+        }
+        const user = new User({
+            name: name,
+            email : email,
+            mobile: mobile,
+            password: hashedPass,
+            image: req.file? req.file.filename:null,
+            is_admin: 0
+        })
+        const userData = await user.save()
+        if(userData) {
+            const mailOptions =
+        {
+            from: '"Anees" <webhostinganees@gmail.com>',
+            to: email,
+            subject: "Email verification",
+            text: "Hello world?", // plain‑text body
+            html: `<b>hello ${userData.name}! please click on the link to verify <a href=http://localhost:3000/api/user/verify?id=${userData._id}>Verify Email</a><br><b>Email:</b>`+email+`<br><b>Password:${password}</b></b>`, // HTML body
+          }
+          sendVerifyEmail(mailOptions)
+    res.render("admin/newUser",{message:"Registration has been completed successfully, and send mail to user"})
+        }
+        else {
+    res.render("admin/newUser",{message:"Registration has been failed"})
+
+    }
+}
+     catch (error) {
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     loadLogin,
     adminLogin,
@@ -197,5 +253,7 @@ module.exports = {
     loadDashboard,
     loadEdit,
     editUser,
-    deleteUser
+    deleteUser,
+    loadNewuser,
+    createNewuser
 }
