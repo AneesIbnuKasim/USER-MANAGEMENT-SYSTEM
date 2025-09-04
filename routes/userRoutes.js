@@ -48,4 +48,9 @@ router.get('/edit',isLogin, editLoad)
 //post edit page form details
 router.post('/edit',upload.single('image'), isLogin, editUser)
 
+//global route
+router.get(/.*/, (req, res) => {
+  res.redirect('/api/user/login'); // Redirect all unknown user paths to login
+});
+
 module.exports = router

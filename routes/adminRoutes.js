@@ -49,4 +49,8 @@ router.post('/newuser', isLogin, upload.single('image'), createNewuser)
 //search users
 router.get('/search', isLogin, searchUser)
 
+//global route
+router.get(/.*/, (req, res) => {
+  res.redirect('/api/admin/login'); // Redirect all unknown admin paths to login
+});
 module.exports = router
