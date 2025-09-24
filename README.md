@@ -20,8 +20,8 @@ A **User Management** application built with **Node.js**, **Express**, **MongoDB
 * **Backend:** Node.js, Express.js
 * **Frontend:** View\.js
 * **Database:** MongoDB (via Mongoose)
-* **Styling:** Bootstrap 5
-* **Authentication:** JWT or session-based auth
+* **Styling:** Tailwind
+* **Authentication:** session-based auth
 * **Form Validation:** Custom or client-side validation
 
 ## Getting Started
