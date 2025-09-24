@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const {sendVerifyEmail, sendPassResetEmail} = require("../config/nodemailer")   //nodemailer setup
 const randomString = require("randomstring")
 
+
 const securePassword = async(password)=>{
     const hashedPass = await bcrypt.hash(password, 10)
     return hashedPass
@@ -91,6 +92,8 @@ const userLogin = async(req,res)=>{
 const loadHome = async(req,res)=>{
     try {
         const id = req.session.userId
+        console.log('login:',req.session.userId);
+        
         const userData = await User.findOne({_id:id})
         res.render('user/home',{user:userData})
     } catch (error) {
@@ -123,11 +126,10 @@ const forgetPassMail = async(req, res)=>{
         {
             from: '"Anees" <webhostinganees@gmail.com>',
             to: email,
-            subject: "Email verification",
-            text: "Hello world?", // plain‑text body
-            html: `<b>hello ${userData.name}! please click on the link to verify <a href=http://localhost:3000/api/user/verify?id=${userData._id}>Verify Email</a></b>`, // HTML body
+            subject: "Password Reset",
+            text: "?", // plain‑text body
+            html: `<b>hello ${userData.name}! please click on the link to reset <a href=http://localhost:3000/api/user/forget-password?token=${randomstring}>Password</a></b>`, // HTML body
           }
-
                 sendVerifyEmail(mailOptions)
                 res.render('user/forget',{message:"Reset link has been sent to your email"})
             }
@@ -137,7 +139,6 @@ const forgetPassMail = async(req, res)=>{
         }
     } catch (error) {
         console.log(error.message);
-        
     }
 }
 
@@ -155,11 +156,10 @@ const loadPassReset = async(req, res)=>{
         
     } catch (error) {
         console.log(error.message);
-        
     }
 }
 
-// //reset password
+// //update and reset password by giving new password 
 const resetPassword = async(req, res)=>{
     try {
         const { password, user_id} = req.body
@@ -199,8 +199,9 @@ const sendVerMail = async(req, res)=>{
     }
 }
 
-//logout user
+//logout user & destroy session data
 const logoutUser = async(req, res)=>{
+    
     try {
         req.session.destroy((err)=>{
             if(err){ 
@@ -209,13 +210,17 @@ const logoutUser = async(req, res)=>{
             }
             //clear cookie
             res.clearCookie('connect.sid')
+            //redirect to login page
             res.redirect('/api/user/login')
         })
+
     } catch (error) {
         console.log(error.message)
         
     }
 }
+
+//Load edit page
 const editLoad = async(req, res)=>{
     try {
         const id = req.query.id
@@ -226,7 +231,7 @@ const editLoad = async(req, res)=>{
     }
 }
 
-//edit user
+//edit and update new data to user
 const editUser = async(req, res)=>{
     try {
         const { userId, name, email, mobile } = req.body

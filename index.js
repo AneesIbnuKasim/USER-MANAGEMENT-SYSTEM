@@ -10,19 +10,17 @@ const session = require("express-session")
 const nocache = require("nocache")
 const flash = require('connect-flash')
 
-//nocache middleware to prevent browser to save protected page caches
+// nocache middleware to prevent browser to save protected page caches
 app.use(nocache());
 
-//session middelware
+//session middleware to save user data to session
 app.use(session({
     secret: process.env.SESSION_SECRET,   // session secret key
     resave: false,           // don't save session if unmodified
-    saveUninitialized: false, // save new sessions
+    saveUninitialized: true, // save new sessions
     cookie: { 
         maxAge: 1000 * 60 * 60, // 1 hour
         secure: false,           // true if using HTTPS
-        sameSite: 'lax',
-        path: '/'
     }
 }));
 //use express for body parsing
